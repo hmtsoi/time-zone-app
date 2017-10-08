@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE')
+    }
+}
+
+apply plugin: 'spring-boot'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring-boot
+    compile 'org.springframework.boot:spring-boot-starter-jersey'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-devtools'
+
+    // jackson-dataformat-xml
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.4.4'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.5.7.RELEASE'
+
+    // postgressql
+    compile 'org.postgresql:postgresql:42.1.4'
+
+    // hibernate
+    compile 'org.hibernate:hibernate-core:5.2.11.Final'
+    compile 'org.hibernate:hibernate-spatial:5.2.11.Final'
+
+    // settings
+    compile 'commons-configuration:commons-configuration:1.10'
+
+    // testing
+    testCompile 'com.jayway.restassured:rest-assured:2.8.0'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+}
+
+springBoot {
+    mainClass = "com.thmlogwork.time.zone.app.Application"
+}
+
+bootRepackage {
+    outputFile = project.file('build/libs/app.jar')
+}

@@ -1,0 +1,12 @@
+## Intellij
+*.iml
+.idea/
+
+
+# Build Tool
+.gradle/
+build/
+target/
+
+# Misc
+tmp
