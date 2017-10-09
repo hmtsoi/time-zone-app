@@ -36,7 +36,7 @@ dependencies {
     compile 'commons-configuration:commons-configuration:1.10'
 
     // testing
-    testCompile 'com.jayway.restassured:rest-assured:2.8.0'
+    testCompile 'io.rest-assured:spring-mock-mvc:3.0.5'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
 }
@@ -47,4 +47,29 @@ springBoot {
 
 bootRepackage {
     outputFile = project.file('build/libs/app.jar')
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+}
+
+check.dependsOn integrationTest
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
 }

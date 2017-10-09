@@ -2,7 +2,6 @@ package com.thmlogwork.time.zone.app.rest;
 
 import com.thmlogwork.time.zone.app.domain.LatLon;
 import com.thmlogwork.time.zone.app.domain.TimeZoneService;
-import com.thmlogwork.time.zone.app.domain.TimeZoneServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,10 @@ public class TimeZoneController {
     @Autowired
     private TimeZoneService timeZoneService;
 
+    public TimeZoneController( TimeZoneService timeZoneService ) {
+        this.timeZoneService = timeZoneService;
+    }
+
     @GetMapping( path = "/{latLonStr:.+}", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity getTimeForLatLon( @PathVariable String latLonStr ) {
 
@@ -30,7 +33,7 @@ public class TimeZoneController {
             return ResponseEntity.badRequest().body( e.getMessage() );
         }
 
-        final TimeZoneInfoResponse response = timeZoneService.createTimeZoneInfoResponse( latLon );
+        final TimeZoneInfoResponse response = timeZoneService.getTimeZoneInfo( latLon );
 
         return ResponseEntity.ok( response );
     }

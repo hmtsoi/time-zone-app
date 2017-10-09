@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 public class TimeZoneServiceImpl implements TimeZoneService {
 
     @Autowired
-    private TimeZoneDao timeZoneDao;
+    protected TimeZoneDao timeZoneDao;
 
-    @Override public TimeZoneInfoResponse createTimeZoneInfoResponse( LatLon latLon ) {
+    @Override public TimeZoneInfoResponse getTimeZoneInfo( LatLon latLon ) {
         final Timezones entity = timeZoneDao.getTimeZone( latLon );
         return new TimeZoneInfoResponse( entity );
     }
