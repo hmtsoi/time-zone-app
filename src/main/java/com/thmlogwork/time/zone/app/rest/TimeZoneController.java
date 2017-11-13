@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TimeZoneController {
 
     @Autowired
-    private TimeZoneService timeZoneService;
-
-    public TimeZoneController( TimeZoneService timeZoneService ) {
-        this.timeZoneService = timeZoneService;
-    }
+    protected TimeZoneService timeZoneService;
 
     @GetMapping( path = "/{latLonStr:.+}", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity getTimeForLatLon( @PathVariable String latLonStr ) {

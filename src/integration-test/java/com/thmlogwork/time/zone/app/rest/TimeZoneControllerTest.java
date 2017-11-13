@@ -20,6 +20,8 @@ public class TimeZoneControllerTest {
     @Mock
     private TimeZoneService timeZoneService;
 
+    private TimeZoneController timeZoneController = new TimeZoneController();
+
     private double longitude = 1;
     private double latitude = 3;
     private LatLon latLon = new LatLon( String.valueOf( latitude ), String.valueOf( longitude ) );
@@ -28,12 +30,14 @@ public class TimeZoneControllerTest {
     public void init() {
         Mockito.when( timeZoneService.getTimeZoneInfo( latLon ) )
                 .thenReturn( new TimeZoneInfoResponse() );
+
+        timeZoneController.timeZoneService = timeZoneService;
     }
 
     @Test
     public void getLatlonSuccessfully() {
         given()
-                .standaloneSetup( new TimeZoneController( timeZoneService ) )
+                .standaloneSetup( timeZoneController )
                 .contentType( ContentType.JSON )
                 .when()
                 .get( "/timeForLatLon/" + String.format( "%s,%s", latitude, longitude ) )
@@ -46,7 +50,7 @@ public class TimeZoneControllerTest {
     @Test
     public void getLatlonWithBadParameter() {
         given()
-                .standaloneSetup( new TimeZoneController( timeZoneService ) )
+                .standaloneSetup( timeZoneController )
                 .contentType( ContentType.JSON )
                 .when()
                 .get( "/timeForLatLon/" + String.format( "%s%s", latitude, longitude ) )
