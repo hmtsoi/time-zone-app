@@ -1,6 +1,7 @@
 package com.thmlogwork.time.zone.app.rest;
 
 import com.thmlogwork.time.zone.app.domain.LatLon;
+import com.thmlogwork.time.zone.app.domain.TimeZoneInfo;
 import com.thmlogwork.time.zone.app.domain.TimeZoneService;
 import io.restassured.http.ContentType;
 import org.junit.Before;
@@ -8,17 +9,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 
-@RunWith( MockitoJUnitRunner.class )
+@RunWith( SpringRunner.class )
 public class TimeZoneControllerTest {
 
     @Mock
     private TimeZoneService timeZoneService;
+    @Mock
+    private TimeZoneInfo timeZoneInfo;
 
     private TimeZoneController timeZoneController = new TimeZoneController();
 
@@ -28,8 +31,9 @@ public class TimeZoneControllerTest {
 
     @Before
     public void init() {
+        Mockito.when( timeZoneInfo.getTz_name1st() ).thenReturn( "Australia/Sydney" );
         Mockito.when( timeZoneService.getTimeZoneInfo( latLon ) )
-                .thenReturn( new TimeZoneInfoResponse() );
+                .thenReturn( timeZoneInfo );
 
         timeZoneController.timeZoneService = timeZoneService;
     }

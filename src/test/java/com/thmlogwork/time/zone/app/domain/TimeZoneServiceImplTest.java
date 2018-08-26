@@ -1,24 +1,20 @@
 package com.thmlogwork.time.zone.app.domain;
 
-import com.thmlogwork.time.zone.app.persistence.TimeZoneDao;
-import com.thmlogwork.time.zone.app.persistence.Timezones;
-import com.thmlogwork.time.zone.app.rest.TimeZoneInfoResponse;
+import com.thmlogwork.time.zone.app.persistence.TimeZoneRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.never;
-
-@RunWith( MockitoJUnitRunner.class )
+@RunWith( SpringRunner.class )
 public class TimeZoneServiceImplTest {
 
     @Mock
-    private TimeZoneDao timeZoneDao;
+    private TimeZoneRepository timeZoneRepositoryImpl;
     @Mock
-    private Timezones timezones;
+    private TimeZoneInfo timeZoneInfo;
 
     private TimeZoneServiceImpl timeZoneService = new TimeZoneServiceImpl();
 
@@ -28,22 +24,15 @@ public class TimeZoneServiceImplTest {
 
     @Before
     public void init() {
-        Mockito.when( timezones.getTz_name1st() ).thenReturn( "Europe/Berlin" );
-        Mockito.when( timeZoneDao.getTimeZone( latLon ) ).thenReturn( timezones );
-
-        timeZoneService.timeZoneDao = timeZoneDao;
+        Mockito.when( timeZoneRepositoryImpl.getTimeZone( latLon ) ).thenReturn( timeZoneInfo );
+        timeZoneService.timeZoneRepository = timeZoneRepositoryImpl;
     }
 
     @Test
     public void createTimeZoneInfoResponse() throws Exception {
 
         timeZoneService.getTimeZoneInfo( latLon );
-
-        Mockito.verify( timeZoneDao ).getTimeZone( latLon );
-        Mockito.verify( timezones ).getTz_name1st();
-        Mockito.verify( timezones ).getUtc_format();
-        Mockito.verify( timezones, never() ).getGeom();
-
+        Mockito.verify( timeZoneRepositoryImpl ).getTimeZone( latLon );
     }
 
 }

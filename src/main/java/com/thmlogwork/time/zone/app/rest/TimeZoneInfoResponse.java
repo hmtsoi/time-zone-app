@@ -1,11 +1,10 @@
 package com.thmlogwork.time.zone.app.rest;
 
-import com.thmlogwork.time.zone.app.persistence.Timezones;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-
+@Getter
+@AllArgsConstructor
 public class TimeZoneInfoResponse {
 
     public String nameOfTimeZone;
@@ -13,15 +12,4 @@ public class TimeZoneInfoResponse {
     public String currentLocalTime;
     public String currentUtcTime;
 
-    public TimeZoneInfoResponse() {
-    }
-
-    public TimeZoneInfoResponse( Timezones entity ) {
-        this.nameOfTimeZone = entity.getTz_name1st();
-        this.offsetFromUtc = entity.getUtc_format();
-        this.currentLocalTime = Instant.now()
-                .atZone( ZoneId.of( nameOfTimeZone ) ).toLocalDateTime().toString();
-        this.currentUtcTime = Instant.now()
-                .atOffset( ZoneOffset.UTC ).toString();
-    }
 }

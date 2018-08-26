@@ -1,9 +1,11 @@
 package com.thmlogwork.time.zone.app.persistence;
 
 import com.vividsolutions.jts.geom.Geometry;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity

@@ -1,5 +1,10 @@
 package com.thmlogwork.time.zone.app.domain;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
+@Getter
+@EqualsAndHashCode
 public class LatLon {
 
     private double latitude;
@@ -14,36 +19,5 @@ public class LatLon {
         if ( longitude > 180 || longitude < -180 ) {
             throw new IllegalArgumentException( "Longitude should be between -180 and 180" );
         }
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    @Override public boolean equals( Object o ) {
-        if ( this == o )
-            return true;
-        if ( o == null || getClass() != o.getClass() )
-            return false;
-
-        LatLon latLon = (LatLon) o;
-
-        if ( Double.compare( latLon.latitude, latitude ) != 0 )
-            return false;
-        return Double.compare( latLon.longitude, longitude ) == 0;
-    }
-
-    @Override public int hashCode() {
-        int result;
-        long temp;
-        temp = Double.doubleToLongBits( latitude );
-        result = (int) ( temp ^ ( temp >>> 32 ) );
-        temp = Double.doubleToLongBits( longitude );
-        result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
-        return result;
     }
 }

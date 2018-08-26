@@ -1,6 +1,7 @@
 package com.thmlogwork.time.zone.app.rest;
 
 import com.thmlogwork.time.zone.app.domain.LatLon;
+import com.thmlogwork.time.zone.app.domain.TimeZoneInfo;
 import com.thmlogwork.time.zone.app.domain.TimeZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -9,6 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 @RestController
 @RequestMapping( value = "/timeForLatLon" )
@@ -29,9 +34,21 @@ public class TimeZoneController {
             return ResponseEntity.badRequest().body( e.getMessage() );
         }
 
-        final TimeZoneInfoResponse response = timeZoneService.getTimeZoneInfo( latLon );
+        final TimeZoneInfo timezoneInfo = timeZoneService.getTimeZoneInfo( latLon );
+        final TimeZoneInfoResponse response = mapTimezoneInfo( timezoneInfo );
 
         return ResponseEntity.ok( response );
+    }
+
+    private TimeZoneInfoResponse mapTimezoneInfo( TimeZoneInfo entity ) {
+        return new TimeZoneInfoResponse(
+                entity.getTz_name1st(),
+                entity.getUtc_format(),
+                Instant.now()
+                        .atZone( ZoneId.of( entity.getTz_name1st() ) ).toLocalDateTime().toString(),
+                Instant.now()
+                        .atOffset( ZoneOffset.UTC ).toString()
+        );
     }
 
     private LatLon validateAndParseLatLonInput( String latLonStr ) {
