@@ -4,19 +4,21 @@ import com.thmlogwork.time.zone.app.domain.LatLon;
 import com.thmlogwork.time.zone.app.domain.TimeZoneInfo;
 import com.thmlogwork.time.zone.app.domain.TimeZoneService;
 import io.restassured.http.ContentType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.when;
 
-@RunWith( SpringRunner.class )
-public class TimeZoneControllerTest {
+@ExtendWith( {SpringExtension.class, MockitoExtension.class} )
+class TimeZoneControllerTest {
 
     @Mock
     private TimeZoneService timeZoneService;
@@ -27,37 +29,43 @@ public class TimeZoneControllerTest {
 
     private double longitude = 1;
     private double latitude = 3;
-    private LatLon latLon = new LatLon( String.valueOf( latitude ), String.valueOf( longitude ) );
+    private LatLon latLon = new LatLon( String.valueOf( latitude ),
+                                        String.valueOf( longitude ) );
 
-    @Before
+    @BeforeEach
     public void init() {
-        Mockito.when( timeZoneInfo.getTz_name1st() ).thenReturn( "Australia/Sydney" );
-        Mockito.when( timeZoneService.getTimeZoneInfo( latLon ) )
-                .thenReturn( timeZoneInfo );
-
         timeZoneController.timeZoneService = timeZoneService;
     }
 
     @Test
-    public void getLatlonSuccessfully() {
+    void getLatlonSuccessfully() {
+
+        when( timeZoneInfo.getTz_name1st() ).thenReturn(
+                "Australia/Sydney" );
+        when( timeZoneService.getTimeZoneInfo( latLon ) )
+                .thenReturn( timeZoneInfo );
         given()
                 .standaloneSetup( timeZoneController )
                 .contentType( ContentType.JSON )
                 .when()
-                .get( "/timeForLatLon/" + String.format( "%s,%s", latitude, longitude ) )
+                .get( "/timeForLatLon/" + String.format( "%s,%s", latitude,
+                                                         longitude ) )
                 .then()
                 .statusCode( 200 );
 
-        Mockito.verify( timeZoneService ).getTimeZoneInfo( Mockito.eq( latLon ) );
+        Mockito.verify( timeZoneService ).getTimeZoneInfo(
+                Mockito.eq( latLon ) );
     }
 
     @Test
-    public void getLatlonWithBadParameter() {
+    void getLatlonWithBadParameter() {
+
         given()
                 .standaloneSetup( timeZoneController )
                 .contentType( ContentType.JSON )
                 .when()
-                .get( "/timeForLatLon/" + String.format( "%s%s", latitude, longitude ) )
+                .get( "/timeForLatLon/" + String.format( "%s%s", latitude,
+                                                         longitude ) )
                 .then()
                 .statusCode( 400 );
 

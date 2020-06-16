@@ -1,15 +1,15 @@
 package com.thmlogwork.time.zone.app.domain;
 
 import com.thmlogwork.time.zone.app.persistence.TimeZoneRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith( SpringRunner.class )
-public class TimeZoneServiceImplTest {
+@ExtendWith( SpringExtension.class )
+class TimeZoneServiceImplTest {
 
     @Mock
     private TimeZoneRepository timeZoneRepositoryImpl;
@@ -20,16 +20,18 @@ public class TimeZoneServiceImplTest {
 
     private double longitude = 1;
     private double latitude = 3;
-    private LatLon latLon = new LatLon( String.valueOf( latitude ), String.valueOf( longitude ) );
+    private LatLon latLon = new LatLon( String.valueOf( latitude ),
+                                        String.valueOf( longitude ) );
 
-    @Before
-    public void init() {
-        Mockito.when( timeZoneRepositoryImpl.getTimeZone( latLon ) ).thenReturn( timeZoneInfo );
+    @BeforeEach
+    void init() {
+        Mockito.when( timeZoneRepositoryImpl.getTimeZone( latLon ) ).thenReturn(
+                timeZoneInfo );
         timeZoneService.timeZoneRepository = timeZoneRepositoryImpl;
     }
 
     @Test
-    public void createTimeZoneInfoResponse() throws Exception {
+    void createTimeZoneInfoResponse() throws Exception {
 
         timeZoneService.getTimeZoneInfo( latLon );
         Mockito.verify( timeZoneRepositoryImpl ).getTimeZone( latLon );
