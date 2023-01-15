@@ -1,8 +1,8 @@
 # Runtime Environment:
 1. Linux
-2. Java 8
+2. Java 17
 3. Gradle
-4. A PostgreSQL 9.6 database filled with the time zones data from 
+4. A PostgreSQL 14 database filled with the time zones data from 
 
 http://www.naturalearthdata.com/downloads/10m-cultural-vectors/timezones/
 

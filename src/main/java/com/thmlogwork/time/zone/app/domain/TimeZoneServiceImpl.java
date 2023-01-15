@@ -6,14 +6,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-@Service class TimeZoneServiceImpl implements TimeZoneService {
+@Service
+class TimeZoneServiceImpl implements TimeZoneService {
 
     @Autowired
     protected TimeZoneRepository timeZoneRepository;
 
     @Override
-    public TimeZoneInfo getTimeZoneInfo( LatLon latLon ) {
-        Objects.requireNonNull( latLon );
-        return timeZoneRepository.getTimeZone( latLon );
+    public TimeZoneInfo getTimeZoneInfo(LatLon latLon) {
+        Objects.requireNonNull(latLon);
+        return timeZoneRepository.getTimeZone(latLon);
     }
 }

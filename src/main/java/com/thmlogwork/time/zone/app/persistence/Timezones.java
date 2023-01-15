@@ -1,15 +1,16 @@
 package com.thmlogwork.time.zone.app.persistence;
 
-import com.vividsolutions.jts.geom.Geometry;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.locationtech.jts.geom.Geometry;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 import java.io.Serializable;
 
 @Entity
-@Table( name = "timezones" )
+@Table(name = "timezones")
 public class Timezones implements Serializable {
 
     @Id
@@ -40,7 +41,7 @@ public class Timezones implements Serializable {
         return gid;
     }
 
-    public void setGid( Long gid ) {
+    public void setGid(Long gid) {
         this.gid = gid;
     }
 
@@ -48,7 +49,7 @@ public class Timezones implements Serializable {
         return objectid;
     }
 
-    public void setObjectid( Integer objectid ) {
+    public void setObjectid(Integer objectid) {
         this.objectid = objectid;
     }
 
@@ -56,7 +57,7 @@ public class Timezones implements Serializable {
         return scalerank;
     }
 
-    public void setScalerank( Integer scalerank ) {
+    public void setScalerank(Integer scalerank) {
         this.scalerank = scalerank;
     }
 
@@ -64,7 +65,7 @@ public class Timezones implements Serializable {
         return featurecla;
     }
 
-    public void setFeaturecla( String featurecla ) {
+    public void setFeaturecla(String featurecla) {
         this.featurecla = featurecla;
     }
 
@@ -72,7 +73,7 @@ public class Timezones implements Serializable {
         return name;
     }
 
-    public void setName( String name ) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -80,7 +81,7 @@ public class Timezones implements Serializable {
         return map_color6;
     }
 
-    public void setMap_color6( Integer map_color6 ) {
+    public void setMap_color6(Integer map_color6) {
         this.map_color6 = map_color6;
     }
 
@@ -88,7 +89,7 @@ public class Timezones implements Serializable {
         return map_color8;
     }
 
-    public void setMap_color8( Integer map_color8 ) {
+    public void setMap_color8(Integer map_color8) {
         this.map_color8 = map_color8;
     }
 
@@ -96,7 +97,7 @@ public class Timezones implements Serializable {
         return note;
     }
 
-    public void setNote( String note ) {
+    public void setNote(String note) {
         this.note = note;
     }
 
@@ -104,7 +105,7 @@ public class Timezones implements Serializable {
         return zone;
     }
 
-    public void setZone( Double zone ) {
+    public void setZone(Double zone) {
         this.zone = zone;
     }
 
@@ -112,7 +113,7 @@ public class Timezones implements Serializable {
         return places;
     }
 
-    public void setPlaces( String places ) {
+    public void setPlaces(String places) {
         this.places = places;
     }
 
@@ -120,7 +121,7 @@ public class Timezones implements Serializable {
         return iso_8601;
     }
 
-    public void setIso_8601( String iso_8601 ) {
+    public void setIso_8601(String iso_8601) {
         this.iso_8601 = iso_8601;
     }
 
@@ -128,7 +129,7 @@ public class Timezones implements Serializable {
         return dst_places;
     }
 
-    public void setDst_places( String dst_places ) {
+    public void setDst_places(String dst_places) {
         this.dst_places = dst_places;
     }
 
@@ -136,7 +137,7 @@ public class Timezones implements Serializable {
         return tz_namesum;
     }
 
-    public void setTz_namesum( Integer tz_namesum ) {
+    public void setTz_namesum(Integer tz_namesum) {
         this.tz_namesum = tz_namesum;
     }
 
@@ -144,7 +145,7 @@ public class Timezones implements Serializable {
         return utc_format;
     }
 
-    public void setUtc_format( String utc_format ) {
+    public void setUtc_format(String utc_format) {
         this.utc_format = utc_format;
     }
 
@@ -152,7 +153,7 @@ public class Timezones implements Serializable {
         return tz_name1st;
     }
 
-    public void setTz_name1st( String tz_name1st ) {
+    public void setTz_name1st(String tz_name1st) {
         this.tz_name1st = tz_name1st;
     }
 
@@ -160,7 +161,7 @@ public class Timezones implements Serializable {
         return time_zone;
     }
 
-    public void setTime_zone( String time_zone ) {
+    public void setTime_zone(String time_zone) {
         this.time_zone = time_zone;
     }
 
@@ -168,7 +169,7 @@ public class Timezones implements Serializable {
         return geom;
     }
 
-    public void setGeom( Geometry geom ) {
+    public void setGeom(Geometry geom) {
         this.geom = geom;
     }
 }

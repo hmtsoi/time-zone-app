@@ -2,27 +2,29 @@ package com.thmlogwork.time.zone.app.persistence;
 
 import com.thmlogwork.time.zone.app.domain.LatLon;
 import com.thmlogwork.time.zone.app.domain.TimeZoneInfo;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
-@Repository class TimeZoneRepositoryImpl implements TimeZoneRepository {
 
-    @Autowired
-    private TimeZoneJpaRepository timeZoneJpaRepository;
+@Repository
+@RequiredArgsConstructor
+class TimeZoneRepositoryImpl implements TimeZoneRepository {
 
-    public TimeZoneInfo getTimeZone( LatLon latLon ) {
+    private final TimeZoneJpaRepository timeZoneJpaRepository;
+
+    public TimeZoneInfo getTimeZone(LatLon latLon) {
 
         final Point point = new GeometryFactory()
-                .createPoint( new Coordinate( latLon.getLongitude(), latLon.getLatitude() ) );
-        point.setSRID( 4326 );
+                .createPoint(new Coordinate(latLon.getLongitude(), latLon.getLatitude()));
+        point.setSRID(4326);
 
-        final Timezones entity = timeZoneJpaRepository.getTimezone( point )
-                .orElseThrow( EntityNotFoundException::new );
+        final Timezones entity = timeZoneJpaRepository.getTimezone(point)
+                .orElseThrow(EntityNotFoundException::new);
         return new TimeZoneInfo(
                 entity.getUtc_format(),
                 entity.getTz_name1st()

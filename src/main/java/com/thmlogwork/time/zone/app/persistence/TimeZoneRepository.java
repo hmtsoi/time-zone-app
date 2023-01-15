@@ -5,6 +5,6 @@ import com.thmlogwork.time.zone.app.domain.TimeZoneInfo;
 
 public interface TimeZoneRepository {
 
-    TimeZoneInfo getTimeZone( LatLon latLon );
+    TimeZoneInfo getTimeZone(LatLon latLon);
 
 }
