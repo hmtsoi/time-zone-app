@@ -34,7 +34,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
-    // postgressql
+    // postgresql
     implementation("org.postgresql:postgresql:42.5.1")
     implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
     implementation("org.hibernate.orm:hibernate-spatial:6.1.6.Final")

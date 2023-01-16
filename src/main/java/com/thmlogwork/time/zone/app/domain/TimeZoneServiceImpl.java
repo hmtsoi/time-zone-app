@@ -13,8 +13,8 @@ class TimeZoneServiceImpl implements TimeZoneService {
     protected TimeZoneRepository timeZoneRepository;
 
     @Override
-    public TimeZoneInfo getTimeZoneInfo(LatLon latLon) {
-        Objects.requireNonNull(latLon);
-        return timeZoneRepository.getTimeZone(latLon);
+    public TimeZoneInfo getTimeZoneInfo(LatLng latLng) {
+        Objects.requireNonNull(latLng);
+        return timeZoneRepository.getTimeZone(latLng);
     }
 }

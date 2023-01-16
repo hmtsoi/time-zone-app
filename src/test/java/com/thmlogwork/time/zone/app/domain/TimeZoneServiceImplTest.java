@@ -20,12 +20,12 @@ class TimeZoneServiceImplTest {
 
     private double longitude = 1;
     private double latitude = 3;
-    private LatLon latLon = new LatLon( String.valueOf( latitude ),
+    private LatLng latLng = new LatLng( String.valueOf( latitude ),
                                         String.valueOf( longitude ) );
 
     @BeforeEach
     void init() {
-        Mockito.when( timeZoneRepositoryImpl.getTimeZone( latLon ) ).thenReturn(
+        Mockito.when( timeZoneRepositoryImpl.getTimeZone(latLng) ).thenReturn(
                 timeZoneInfo );
         timeZoneService.timeZoneRepository = timeZoneRepositoryImpl;
     }
@@ -33,8 +33,8 @@ class TimeZoneServiceImplTest {
     @Test
     void createTimeZoneInfoResponse() throws Exception {
 
-        timeZoneService.getTimeZoneInfo( latLon );
-        Mockito.verify( timeZoneRepositoryImpl ).getTimeZone( latLon );
+        timeZoneService.getTimeZoneInfo(latLng);
+        Mockito.verify( timeZoneRepositoryImpl ).getTimeZone(latLng);
     }
 
 }

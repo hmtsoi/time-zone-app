@@ -1,6 +1,6 @@
 package com.thmlogwork.time.zone.app.persistence;
 
-import com.thmlogwork.time.zone.app.domain.LatLon;
+import com.thmlogwork.time.zone.app.domain.LatLng;
 import com.thmlogwork.time.zone.app.domain.TimeZoneInfo;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
@@ -17,10 +17,10 @@ class TimeZoneRepositoryImpl implements TimeZoneRepository {
 
     private final TimeZoneJpaRepository timeZoneJpaRepository;
 
-    public TimeZoneInfo getTimeZone(LatLon latLon) {
+    public TimeZoneInfo getTimeZone(LatLng latLng) {
 
         final Point point = new GeometryFactory()
-                .createPoint(new Coordinate(latLon.getLongitude(), latLon.getLatitude()));
+                .createPoint(new Coordinate(latLng.getLongitude(), latLng.getLatitude()));
         point.setSRID(4326);
 
         final Timezones entity = timeZoneJpaRepository.getTimezone(point)
