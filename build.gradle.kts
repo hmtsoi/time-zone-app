@@ -80,6 +80,13 @@ testing {
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
                 implementation("org.mockito:mockito-junit-jupiter:3.3.3")
             }
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
         }
     }
 }
