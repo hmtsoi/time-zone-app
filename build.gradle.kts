@@ -68,7 +68,6 @@ testing {
                 }
             }
             dependencies {
-                implementation(project)
                 project.dependencies
                 compileOnly("org.projectlombok:lombok")
                 annotationProcessor("org.projectlombok:lombok")
