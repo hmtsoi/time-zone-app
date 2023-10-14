@@ -51,7 +51,7 @@ class TimeZoneControllerTest {
                 .get("/timeForLatLng/" + String.format("%s,%s", latitude,
                         longitude))
                 .then()
-                .statusCode(200);
+                .statusCode(204);
 
         Mockito.verify(timeZoneService).getTimeZoneInfo(
                 Mockito.eq(latLng));
