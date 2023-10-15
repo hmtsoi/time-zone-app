@@ -39,6 +39,10 @@ dependencies {
     implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
     implementation("org.hibernate.orm:hibernate-spatial:6.1.6.Final")
 
+    // google cloud -- comment out to connect local database
+    implementation("com.google.cloud:spring-cloud-gcp-starter-sql-postgresql:4.8.1")
+    implementation("com.google.cloud:spring-cloud-gcp-dependencies:4.8.1")
+
     // settings
     implementation("commons-configuration:commons-configuration:1.10")
 
@@ -48,11 +52,11 @@ dependencies {
 }
 
 tasks.named<Jar>("jar") {
-    enabled = false
+    enabled = true
 }
 
 tasks.named<Jar>("bootJar") {
-    enabled = false
+    enabled = true
 }
 
 testing {
@@ -68,7 +72,6 @@ testing {
                 }
             }
             dependencies {
-                implementation(project)
                 project.dependencies
                 compileOnly("org.projectlombok:lombok")
                 annotationProcessor("org.projectlombok:lombok")
@@ -80,6 +83,13 @@ testing {
                 implementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
                 implementation("org.mockito:mockito-junit-jupiter:3.3.3")
+            }
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
             }
         }
     }
