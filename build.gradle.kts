@@ -7,7 +7,7 @@ buildscript {
 plugins {
     java
     `jvm-test-suite`
-    id("org.springframework.boot") version "3.0.1"
+    id("org.springframework.boot") version "3.1.5"
     id("io.spring.dependency-management") version "1.1.0"
 }
 
@@ -22,22 +22,22 @@ repositories {
 
 dependencies {
     // spring-boot
-    implementation("org.springframework.boot:spring-boot-starter-jersey")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // jackson-dataformat-xml
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.4.4")
+    implementation("com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.3")
 
     // lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
     // postgresql
-    implementation("org.postgresql:postgresql:42.5.1")
-    implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
-    implementation("org.hibernate.orm:hibernate-spatial:6.1.6.Final")
+    implementation("org.postgresql:postgresql:42.6.0")
+    implementation("org.hibernate.orm:hibernate-core:6.2.13.Final")
+    implementation("org.hibernate.orm:hibernate-spatial:6.2.13.Final")
 
     // google cloud -- comment out to connect local database
     implementation("com.google.cloud:spring-cloud-gcp-starter-sql-postgresql:4.8.1")
@@ -48,7 +48,7 @@ dependencies {
 
     // testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
+    testImplementation(project(mapOf("path" to ":")))
 }
 
 tasks.named<Jar>("jar") {
@@ -66,12 +66,12 @@ testing {
             useJUnitJupiter()
         }
         val integrationTest by registering(JvmTestSuite::class) {
-            testType.set(TestSuiteType.INTEGRATION_TEST)
             sources {
                 java {
                     setSrcDirs(listOf("src/main/java", "src/integration-test/java"))
                 }
             }
+            testType.set(TestSuiteType.INTEGRATION_TEST)
             dependencies {
                 project.dependencies
                 compileOnly("org.projectlombok:lombok")
