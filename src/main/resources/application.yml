@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/timezones_db?useSSL=false
+    username: timezones_user
+    password: pass
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jpa:
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false # true

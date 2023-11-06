@@ -3,26 +3,32 @@ package com.thmlogwork.time.zone.app.rest;
 import com.thmlogwork.time.zone.app.domain.LatLng;
 import com.thmlogwork.time.zone.app.domain.TimeZoneInfo;
 import com.thmlogwork.time.zone.app.domain.TimeZoneService;
-import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
+@WebMvcTest(value = TimeZoneController.class, properties = "spring.cloud.gcp.sql.enabled=false")
 class TimeZoneControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+    @MockBean
     private TimeZoneService timeZoneService;
-    @Mock
+    @MockBean
     private TimeZoneInfo timeZoneInfo;
 
     private TimeZoneController timeZoneController;
@@ -32,44 +38,38 @@ class TimeZoneControllerTest {
     private LatLng latLng = new LatLng(String.valueOf(latitude),
             String.valueOf(longitude));
 
-    @BeforeEach
-    public void init() {
-        timeZoneController = new TimeZoneController(timeZoneService);
-    }
-
     @Test
-    void getLatlonSuccessfully() {
+    void getLatlonSuccessfully() throws Exception {
 
         when(timeZoneInfo.getTz_name1st()).thenReturn(
                 "Australia/Sydney");
         when(timeZoneService.getTimeZoneInfo(latLng))
                 .thenReturn(timeZoneInfo);
-        given()
-                .standaloneSetup(timeZoneController)
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/timeForLatLng/" + String.format("%s,%s", latitude,
-                        longitude))
-                .then()
-                .statusCode(200);
+
+        this.mockMvc.perform(get("/timeForLatLng/" + String.format("%s,%s", latitude, longitude)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         Mockito.verify(timeZoneService).getTimeZoneInfo(
                 Mockito.eq(latLng));
     }
 
     @Test
-    void getLatlonWithBadParameter() {
+    void getLatlonWithBadParameter() throws Exception {
+        this.mockMvc.perform(get("/timeForLatLng/" + String.format("%s%s", latitude,
+                        longitude)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(containsString("Please input longitude and latitude comma separated in form of {latitude},{longitude}")));
+    }
 
-        given()
-                .standaloneSetup(timeZoneController)
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/timeForLatLng/" + String.format("%s%s", latitude,
-                        longitude))
-                .then()
-                .statusCode(400);
-
-        Mockito.verify(timeZoneService, never()).getTimeZoneInfo(any());
+    @Test
+    void getLatlonWithInvalidLatitude() throws Exception {
+        this.mockMvc.perform(get("/timeForLatLng/" + String.format("%s,%s", 300,
+                        longitude)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(containsString("Latitude should be between -90 and 90")));
     }
 
 }

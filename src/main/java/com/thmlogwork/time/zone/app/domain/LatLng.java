@@ -13,11 +13,5 @@ public class LatLng {
     public LatLng(String latitudeStr, String longitudeStr) {
         this.latitude = Double.parseDouble(latitudeStr);
         this.longitude = Double.parseDouble(longitudeStr);
-        if (latitude > 90 || latitude < -90) {
-            throw new IllegalArgumentException("Latitude should be between -90 and 90");
-        }
-        if (longitude > 180 || longitude < -180) {
-            throw new IllegalArgumentException("Longitude should be between -180 and 180");
-        }
     }
 }
