@@ -1,0 +1,42 @@
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: INFO
+          filter:
+            CommonsRequestLoggingFilter: INFO
+management:
+  endpoint:
+    env:
+      access: read_only
+    health:
+      access: read_only
+    info:
+      access: read_only
+    loggers:
+      access: read_only
+  endpoints:
+    jmx:
+      exposure:
+        include: health,info,loggers,metrics,env
+    web:
+      exposure:
+        include: health,info,loggers,metrics,env
+spring:
+  datasource:
+    password: pass
+    testWhileIdle: true
+    url: jdbc:postgresql://127.0.0.1:5432/timezones_db
+    username: timezones_user
+    validationQuery: SELECT 1
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  cloud:
+    gcp:
+      sql:
+        enabled: false

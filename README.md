@@ -1,6 +1,6 @@
 # Runtime Environment:
 1. Linux
-2. Java 17
+2. Java 21
 3. Gradle
 4. A PostgreSQL 14 database filled with the time zones data from 
 

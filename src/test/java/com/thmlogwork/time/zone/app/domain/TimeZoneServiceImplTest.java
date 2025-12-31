@@ -6,12 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith( SpringExtension.class )
 class TimeZoneServiceImplTest {
 
-    @Mock
+    @MockitoBean
     private TimeZoneRepository timeZoneRepositoryImpl;
     @Mock
     private TimeZoneInfo timeZoneInfo;
